@@ -9,7 +9,7 @@ module.exports = () => {
 
   passport.deserializeUser((id, done) => {
     try {
-      //! 세션에 저장되어 있는 id 값으로 db에서 user를 찾아오는 코드
+      //! 세션에 저장되어 있는 id 값으로 db에서 id 값을 비교하여 user를 찾아오는 코드
       const user = db.find(id);
       if (user) done(null, user);
       else done(null, false, { message: "유저를 못찾았다." });

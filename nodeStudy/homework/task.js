@@ -4,7 +4,7 @@ const list = [];
 rl.on("line", (input) => {
   list.push(input);
 }).on("close", () => {
-  list.shift();
+  list.shift(); //! 리스트의 인자 중 맨 첫번째 인자를 밀어서 없앤다.
   sorted(list);
 });
 
@@ -30,6 +30,9 @@ function sorted(list) {
     var [age, name] = i.split(" ");
     result.push({ age, name });
   }
-  result.sort((a, b) => a.age - b.age);
-  result.forEach((value) => console.log(`${value.age} ${value.name}`));
+  console.log(result);
+  result.sort((a, b) => a.age - b.age); //? 오름차순 정렬, (b-a는 내림차순 정렬) 여기서 a,b는 각각의 객체를 의미
+  result.forEach((value) => console.log(`${value.age} ${value.name}`)); //? forEach는 리스트의 각 인자를 for문으로 출력하기 위한 메소드
 }
+
+//? https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/sort  --> sort의 자세한 설명

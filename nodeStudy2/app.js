@@ -7,7 +7,7 @@ const passportConfig = require("./passport");
 //미들웨어
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser("secreyKey")); //? cookiePaser시작 후 session 다음 passport 하는것이 안전 순서가 중요!
+app.use(cookieParser("secreyKey")); //? cookiePaser시작 후 session 다음 passport 하는것이 안전 --> 순서가 중요!
 app.use(
   session({
     secret: "secretKey",
@@ -19,7 +19,7 @@ app.use(
     },
   })
 );
-app.use(passport.initialize());
+app.use(passport.initialize()); //? passport 설정을 시작한다.
 app.use(passport.session()); //!session으로 인증하겠다.
 passportConfig(); //?passport의 전략이 들어가는 곳
 //라우터
