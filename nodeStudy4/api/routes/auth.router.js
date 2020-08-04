@@ -1,4 +1,4 @@
-const { registerProcess } = require("../middlewares/auth.middleware");
+const { registerProcess, loginProcess } = require("../middlewares/auth.middleware");
 
 const router = require("express").Router();
 
@@ -7,7 +7,7 @@ const router = require("express").Router();
  * @route POST/auth/login
  * @body {email, password}
  */
-router.post("/login", (req, res, next) => {});
+router.post("/login", loginProcess);
 
 /**
  *@description 회원가입
