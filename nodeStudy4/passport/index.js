@@ -1,6 +1,7 @@
 const passport = require("passport");
 const getConn = require("../config/database/db.pool");
 const local = require("./strategy/local");
+const { deserializeUser } = require("passport");
 
 function passportConfig() {
   // 패스포트 설정
@@ -27,14 +28,12 @@ function passportConfig() {
       const [[row]] = await conn.query("select * from user where id = ?", [id]); // 유저를 찾는다
       user = row;
     } catch (error) {
+      err = error;
     } finally {
       // 에러든 성공하든 항상 실행되는 코드
-      if (err) {
-        console.error(err);
-        done(err);
-      } else if (conn) conn.release();
-      else if (user) done(null, user);
-      else done(null, false, { message: "사용자를 찾지 못했다." });
+      if (conn) conn.release();
+      if (err) done(err);
+      if (user) done(null, user);
     }
   });
 

@@ -52,4 +52,24 @@ module.exports = {
       next(err);
     }
   },
+
+  isNotLoggedIn: (req, res, next) => {
+    if (req.isUnauthenticated()) next();
+    //passport가 isUnauthenticated라는 메소드를 정의해준 것
+    else res.status(403).json({ success: false, message: "로그인이 필요 없음" }); //로그인이 되있는 상태에서 로그인을 또 시도할때
+  },
+
+  isLoggedIn: (req, res, next) => {
+    if (req.isAutenticated()) next();
+    //passport가 isAuthenticated라는 메소드를 정의해준 것
+    else res.status(403).json({ success: false, message: "로그인이 필요함" }); //로그인이 되어있는지 확인
+  },
+
+  logoutProcess: (req, res, next) => {
+    req.logOut();
+    req.session.destroy();
+    res.status(201).send("logout ok");
+    //json
+    //end
+  },
 }; //? 인증을 위한 미들웨어

@@ -6,6 +6,7 @@ const authRouter = require("./api/routes/auth.router");
 const morgan = require("morgan");
 const passport = require("passport");
 const passportConfig = require("./passport");
+const db = require("./models");
 
 // todo: express 미들웨어 등록
 app.use(express.json());
@@ -38,6 +39,17 @@ app.use((req, res, next) => {
 });
 
 //todo: Server start
-app.listen(9000, () => {
-  console.log("Server Start!");
-});
+db.sequelize
+  .sync({ force: false }) //force가 true면 서버를 재실행할 때마다 db를 초기화해서 다시 만들어 주는 것
+  .then(() => {
+    //then은 성공적으로 실행될 경우 실행되는 코드
+    console.log("디비 연동 성공");
+    app.listen(9000, () => {
+      console.log("Server Start!");
+    });
+  })
+  .catch((err) => {
+    //catch는 error가 나면 err를 처리하는 코드
+    console.error(err);
+    console.log("디비 연동 실패");
+  });
