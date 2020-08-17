@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const authRouter = require("./api/routes/auth.router");
 const morgan = require("morgan");
 const passport = require("passport");
 const passportConfig = require("./passport");
@@ -31,7 +30,13 @@ passportConfig(); // passport 설정 실행
 app.use(morgan("dev"));
 
 //todo: 라우터
-app.use("/auth", authRouter);
+// app.get("/", (req,res)=>{
+//   req.logOut()
+//   req.session.destroy()
+// })
+app.use("/auth", require("./api/routes/auth.router"));
+app.use("/user", require("./api/routes/myconfig"));
+// app.use("/users", require("./api/routes/users"));
 
 //todo: 에러 핸들러
 app.use((req, res, next) => {

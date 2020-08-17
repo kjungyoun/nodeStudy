@@ -1,7 +1,8 @@
 const passport = require("passport");
-const getConn = require("../config/database/db.pool");
+
 const local = require("./strategy/local");
 const { deserializeUser } = require("passport");
+const { User } = require("../models"); //models의 index는 db인데 db를 불러와서 db.User를 불러온 것
 
 function passportConfig() {
   // 패스포트 설정
@@ -20,20 +21,17 @@ function passportConfig() {
   passport.deserializeUser(async (id, done) => {
     //id는 user.id와 같음
     console.log("deserializeUser 실행");
-    let conn = null;
+
     let err = null;
     let user = null;
     try {
-      conn = await getConn(); // 데이터베이스 연동이기 때문에 await으로 비동기를 블록해주는 코드는 try에 다 들어가고 커넥션을 가져와서
-      const [[row]] = await conn.query("select * from user where id = ?", [id]); // 유저를 찾는다
-      user = row;
+      user = await User.findOne({ where: { id } }); //모델 타입에서 findOne이라는 메소드가 존재 (User테이블에서 하나만 찾아오겠다.)
     } catch (error) {
       err = error;
     } finally {
       // 에러든 성공하든 항상 실행되는 코드
-      if (conn) conn.release();
       if (err) done(err);
-      if (user) done(null, user);
+      else if (user) done(null, user); //이부분이 실행되면 req.user = user를 해준다. 따라서 다른 곳에서 req.user를 하면 나의 user정보가 담겨있다.
     }
   });
 

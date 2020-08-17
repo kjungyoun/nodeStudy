@@ -1,15 +1,13 @@
-const getConn = require("../../config/database/db.pool");
 const bcrypt = require("bcrypt");
+const { User } = require("../../models");
 const LocalStrategy = require("passport-local").Strategy;
 
 function local() {
   return new LocalStrategy(
     { usernameField: "email", passwordField: "password" }, // 옵션값으로 req.body안에 담겨오는 param의 값
     async (email, password, done) => {
-      let conn;
       try {
-        conn = await getConn();
-        const [[user]] = await conn.query("select * from user where email = ?", [email]);
+        const user = await User.findOne({ where: { email } }); //sql문이 이렇게 바뀜
         if (!user) done(null, false, { message: "이메일이 틀립니다." });
         // 사용자가 없어서 error는 아니므로 null이고 사용자가 없으므로 false이고 info로 메세지를 출력하는 done
         else if (!(await bcrypt.compare(password, user.password)))
