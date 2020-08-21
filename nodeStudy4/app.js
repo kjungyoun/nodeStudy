@@ -35,7 +35,7 @@ app.use(morgan("dev"));
 //   req.session.destroy()
 // })
 app.use("/auth", require("./api/routes/auth.router"));
-app.use("/user", require("./api/routes/myconfig"));
+app.use("/user", require("./api/routes/myconfig.router"));
 // app.use("/users", require("./api/routes/users"));
 
 //todo: 에러 핸들러

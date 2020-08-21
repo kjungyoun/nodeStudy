@@ -22,7 +22,7 @@ module.exports = {
           console.error(loginError);
           return next(loginError); // statusCode : 500 next는 500에러 코드인 서버에러를 나타냄
         }
-        const jsonUser = user.toJSON(); // 여기서 user가 local에서 전달해준 user로 toJSON은 sequelize 타입인 models라는 타입을 JSON형식으로 바꿔주는 것
+        const jsonUser = user.toJSON(); // 여기서 user는 local에서 전달해준 user로 toJSON은 sequelize 타입인 models라는 타입을 JSON형식으로 바꿔주는 것
         delete jsonUser.password; // jsonUser에서 password의 노출을 방지하기 위해 지웠다.
         res.status(200).json({ success: true, message: "로그인 성공!", user: jsonUser });
       });

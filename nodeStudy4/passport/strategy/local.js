@@ -14,9 +14,7 @@ function local() {
           // bcrypt의 compare메서드로 입력한 패스워드와 사용자 패스워드를 비교하여 boolean으로 리턴
           done(null, false, { message: "비밀번호가 틀립니다." });
         else done(null, user);
-        conn.release();
       } catch (error) {
-        if (conn) conn.release();
         console.error(error);
         done(error); // 이 에러가 authenticate에 err에 담겨 거기서 처리가 된다.
       }
