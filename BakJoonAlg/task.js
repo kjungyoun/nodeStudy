@@ -36,4 +36,4 @@ function sorted(list) {
 }
 
 //? https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/sort  --> sort의 자세한 설명
-// 이건 테스트용입니다.
+// 이건 테스트용입니다. 두번째 테스트입니다
